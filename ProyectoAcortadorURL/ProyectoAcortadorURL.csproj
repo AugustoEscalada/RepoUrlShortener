@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="Data\Implementations\" />
+    <Folder Include="Data\Interfaces\" />
   </ItemGroup>
 
 </Project>
