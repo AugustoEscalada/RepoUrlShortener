@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.EntityFrameworkCore;
+using ProyectoAcortadorURL.Data;
+
 namespace ProyectoAcortadorURL
 {
     public class Program
@@ -12,6 +16,12 @@ namespace ProyectoAcortadorURL
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<UrlShortenerContext>(dbContextOptions => dbContextOptions.UseSqlite(
+   builder.Configuration["ConnectionStrings:UrlShortenerConection"]));
+
+          
+
+
 
             var app = builder.Build();
 
