@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ProyectoAcortadorURL.Data.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProyectoAcortadorURL.Entities
@@ -15,6 +16,7 @@ namespace ProyectoAcortadorURL.Entities
         [Required]
         public int views { get; set; }
 
+        public UrlCategoriesEnum category { get; set; }
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoAcortadorURL.Data;
+using ProyectoAcortadorURL.Data.Models;
 using ProyectoAcortadorURL.Entities;
 using ProyectoAcortadorURL.Helpers;
 using System.Xml;
@@ -20,7 +21,7 @@ namespace ProyectoAcortadorURL.Controllers
         }
 
         [HttpPost("Post")]
-        public IActionResult GetUrlShortened(string longUrl)
+        public IActionResult GetUrlShortened(string longUrl, UrlCategoriesEnum cat)
         {
             var helperUrl = new HelperUrl();
 
@@ -29,7 +30,8 @@ namespace ProyectoAcortadorURL.Controllers
             ShortenedURL shortened = new ShortenedURL
             {
                 LongURL = longUrl,
-                ShortURL = shortUrl
+                ShortURL = shortUrl,
+                category = cat
             };
 
             _Urlcontext.ShortenedURLs.Add(shortened);
@@ -40,34 +42,38 @@ namespace ProyectoAcortadorURL.Controllers
 
         [HttpGet("get")]
 
-        public IActionResult GetUrl(string ClientUrl)
+        public IActionResult GetUrl(string url)
         {
-            var urlToGet = _Urlcontext.ShortenedURLs.FirstOrDefault(x => x.ShortURL == ClientUrl);
+            var urlToGet = _Urlcontext.ShortenedURLs.FirstOrDefault(x => x.ShortURL == url);
 
             if (urlToGet == null)
             {
                 return NotFound("La URL no existe");
             }
+
+            int cat = (int)urlToGet.category;
+            
+            string category;
+
+            if((cat) == 0)
+            {
+                category = "entretenimiento";
+            }
+            else if(cat == 1)
+            {
+                category = "trabajo";
+            }
+            else
+            {
+                category = "compras";
+            }
+
+
             urlToGet.views += 1;
             _Urlcontext.SaveChanges();
-            return Ok(urlToGet.LongURL);
+            return Ok($" url: {urlToGet.LongURL}, category: {category}");
          
         }
 
-
-        //[HttpGet("Get")]
-        //public IActionResult GetUrl(string shortenedurl)
-        //{
-        //    var urlToGet = _Urlcontext.ShortenedURLs.FirstOrDefault(x => x.ShortURL == shortenedurl);
-
-        //    if (urlToGet == null)
-        //    {
-        //        return NotFound("The Url cannot be found");
-        //    }
-        //    urlToGet.views += 1;
-        //    _Urlcontext.SaveChanges();
-        //    return Ok(urlToGet.LongURL);
-
-        //}
     }
 }
