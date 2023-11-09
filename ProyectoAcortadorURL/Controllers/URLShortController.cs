@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoAcortadorURL.Data;
 using ProyectoAcortadorURL.Data.Models;
@@ -11,6 +12,7 @@ namespace ProyectoAcortadorURL.Controllers
 {
     [ApiController]
     [Route(template: "api/UrlShort")]
+    [Authorize]
     public class URLShortController : Controller
     {
 
@@ -34,7 +36,7 @@ namespace ProyectoAcortadorURL.Controllers
                 category = cat
             };
 
-            _Urlcontext.ShortenedURLs.Add(shortened);
+            _Urlcontext.ShortenedUrls.Add(shortened);
             _Urlcontext.SaveChanges();
 
             return Ok(shortened.ShortURL) ;
@@ -44,7 +46,7 @@ namespace ProyectoAcortadorURL.Controllers
 
         public IActionResult GetUrl(string url)
         {
-            var urlToGet = _Urlcontext.ShortenedURLs.FirstOrDefault(x => x.ShortURL == url);
+            var urlToGet = _Urlcontext.ShortenedUrls.FirstOrDefault(x => x.ShortURL == url);
 
             if (urlToGet == null)
             {
@@ -72,6 +74,7 @@ namespace ProyectoAcortadorURL.Controllers
             urlToGet.views += 1;
             _Urlcontext.SaveChanges();
             return Ok($" url: {urlToGet.LongURL}, category: {category}");
+            //return Redirect(urlToGet.LongURL);
          
         }
 

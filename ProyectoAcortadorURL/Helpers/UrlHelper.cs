@@ -11,14 +11,18 @@ namespace ProyectoAcortadorURL.Helpers
         {
             const string chars = "abcdefghijklmnopqrstuvwxyz";
             var random = new Random();
-            var shortUrl = new StringBuilder();
+            string shortUrl = string.Empty;
+
+            string index = "https://UrlShortener/";
 
             for (int i = 0; i < 6; i++)
             {
-                shortUrl.Append(chars[random.Next(chars.Length)]);
+                shortUrl = index + chars[random.Next(chars.Length)];
+                index = shortUrl;
+                //shortUrl.Append(chars[random.Next(chars.Length)]);
             }
 
-            return shortUrl.ToString();
+            return shortUrl;
         }
     }
 }
