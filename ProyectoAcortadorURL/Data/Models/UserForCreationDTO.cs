@@ -2,8 +2,8 @@
 {
     public class UserForCreationDTO
     {
-        public string? Username ; 
+        public string? Username { get; set; }
 
-        public string? Password;
+        public string? Password { get; set; }
     }
 }
